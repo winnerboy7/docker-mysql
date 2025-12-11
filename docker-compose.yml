@@ -1,24 +1,25 @@
 services:
   db:
     image: mysql:8.0
-    container_name: mysql-server   
+    container_name: mysql-server
     restart: unless-stopped
     tty: true
     environment:
       TZ: Asia/Bangkok
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD} # Replace with a strong password
-      MYSQL_DATABASE: ${MYSQL_DATABASE}           # Optional: Create a default database
-      MYSQL_USER: ${MYSQL_USER}                   # Optional: Create a default user
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}           # Optional: Set password for the default user
+      MYSQL_DATABASE: ${MYSQL_DATABASE} # Optional: Create a default database
+      MYSQL_USER: ${MYSQL_USER} # Optional: Create a default user
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD} # Optional: Set password for the default user
     ports:
-      - "3306:3306"                               # Map host port 3306 to container port 3306
+      - "3306:3306" # Map host port 3306 to container port 3306
     volumes:
       - ./mysql/data:/var/lib/mysql/
       - ./mysql/config:/etc/mysql/conf.d/
       - ./mysql/initdb:/docker-entrypoint-initdb.d
     # command: --default-authentication-plugin=mysql_native_password
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
+      test:
+        ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD",]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -46,4 +47,3 @@ services:
 networks:
   app-network:
     driver: bridge
-    external: true
