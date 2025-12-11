@@ -42,9 +42,9 @@ services:
       - db
     networks:
       - app-network
-
 networks:
   app-network:
-    name: app-network
+    # Specify driver options
     driver: bridge
-    external: true
+    driver_opts:
+      com.docker.network.bridge.host_binding_ipv4: "127.0.0.1"
