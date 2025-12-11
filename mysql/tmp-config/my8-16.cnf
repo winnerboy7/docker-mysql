@@ -1,0 +1,82 @@
+# =============================================================================
+# MySQL Configuration File for MySQL 8.x
+# Optimized for a system with 16GB RAM and 8 CPU Cores
+# Workload: General Purpose / OLTP (InnoDB-focused)
+
+# Warnings:
+# 1. This is an "Aggressive Start" configuration focused on performance.
+# 2. Test on a Staging Server before deploying to Production.
+# 3. Backup your original my.cnf file before making changes.
+# 4. Typical file locations: /etc/mysql/my.cnf or /etc/my.cnf
+# 5. Further tuning may be required based on your specific workload and hardware.
+
+# Configured by Chaimongkol Khamkom (ToMDev)
+# FB: https://facebook.com/winnerboy7
+# Email: winnerboy7-At-gmail-Dot-com
+# =============================================================================
+
+[mysqld]
+# Basic settings
+user = mysql
+port = 3306
+bind-address = 0.0.0.0
+datadir = /var/lib/mysql
+socket = /var/run/mysqld/mysqld.sock
+pid-file = /var/run/mysqld/mysqld.pid
+default-storage-engine = InnoDB
+character-set-server = utf8mb4
+collation-server = utf8mb4_unicode_ci
+
+# SQL Mode Settings
+# sql-mode = "STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION"
+sql_mode                            = ""
+innodb_strict_mode                  = 0
+
+# InnoDB Buffer Pool (Crucial for performance)
+# Allocate 50-70% of available RAM. For 16GB, 8GB-11GB is a good starting point.
+innodb_buffer_pool_size = 10G
+
+# InnoDB Log Files
+# Adjust based on your workload's write intensity.
+innodb_log_file_size = 512M
+innodb_log_files_in_group = 2
+
+# InnoDB I/O Capacity
+# Tune based on your storage system's capabilities (e.g., SSDs vs HDDs).
+innodb_io_capacity = 1000
+innodb_io_capacity_max = 2000
+
+# InnoDB Thread Concurrency
+# Set to the number of CPU cores or slightly higher.
+innodb_thread_concurrency = 12
+
+# Connection Management
+# Max connections should accommodate peak usage with a buffer.
+max_connections = 700
+max_user_connections = 600
+
+# Query Cache (Deprecated in MySQL 8.0, remove if present)
+# query_cache_size = 0
+# query_cache_type = 0
+
+# Temporary Tables
+tmp_table_size = 256M
+max_heap_table_size = 256M
+
+# Log Settings (Adjust as needed for debugging/monitoring)
+log_error = /var/log/mysql/error.log
+slow_query_log = 1
+slow_query_log_file = /var/log/mysql/mysql-slow.log
+long_query_time = 1
+
+# Other important settings
+# Adjust for specific needs, e.g., if you have many joins.
+join_buffer_size = 4M
+sort_buffer_size = 4M
+read_buffer_size = 2M
+read_rnd_buffer_size = 4M
+
+# Binary Logging (If replication is used)
+# log_bin = mysql-bin
+# expire_logs_days = 7
+# binlog_format = ROW
