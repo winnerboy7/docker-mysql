@@ -1,0 +1,24 @@
+# Install UFW
+sudo apt update && sudo apt install ufw
+
+# Set default rules (block incoming, allow outgoing)
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+
+# !!! IMPORTANT: Allow SSH before enabling to avoid lockout !!!
+sudo ufw allow ssh
+
+# Enable UFW
+sudo ufw enable
+
+sudo ufw allow 22/tcp
+sudo ufw allow 8080/tcp
+sudo ufw allow 3306/tcp
+
+sudo ufw status
+
+sudo ss -tulpn | grep 8080
+netstat -tulpn | grep :8080
+
+sudo ufw status numbered
+sudo ufw delete [rule_number]

@@ -45,6 +45,7 @@ services:
 networks:
   app-network:
     # Specify driver options
+    name: app-network
     driver: bridge
-    driver_opts:
-      com.docker.network.bridge.host_binding_ipv4: "127.0.0.1"
+    external: true
+      
