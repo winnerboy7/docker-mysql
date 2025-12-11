@@ -3,7 +3,7 @@ APPLICATION_NAME ?= MySQL Server
 
 up:
 	@echo "Running container from ${APPLICATION_NAME}..."
-	docker-compose up -d
+	docker-compose up -d --build
 	@echo "phpmyadmin running on port 8080."
 	@echo "Container running on port 3306."
 
