@@ -1,7 +1,7 @@
 services:
   db:
     image: mysql:8.0
-    container_name: mysql-server   
+    container_name: mysql-server
     restart: unless-stopped
     tty: true
     environment:
@@ -18,9 +18,8 @@ services:
       - ./mysql/initdb:/docker-entrypoint-initdb.d
     # command: --default-authentication-plugin=mysql_native_password
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
-      timeout: 5s
       retries: 5
     networks:
       - app-network
@@ -28,7 +27,7 @@ services:
     image: phpmyadmin:latest
     # image: phpmyadmin/phpmyadmin:latest
     container_name: mysql-admin
-    restart: always
+    restart: unless-stopped
     ports:
       - 8080:80
     environment:
@@ -39,13 +38,12 @@ services:
       PMA_PORT: 3306
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     networks:
       - app-network
 networks:
   app-network:
-    # Specify driver options
     name: app-network
     driver: bridge
-    external: true
       

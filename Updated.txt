@@ -1,0 +1,21 @@
+### อัปเดตPHP จาก 8.3.28 → 8.3.36 (รุ่นแพตช์ CVE แล้ว)
+
+ดึง phpmyadmin:latest ใหม่ แล้ว recreate mysql-admin
+PHP จาก 8.3.28 → 8.3.36 (รุ่นแพตช์ CVE แล้ว)
+คอนเทนเนอร์ขึ้นปกติ พอร์ต 8080 ตอบ HTTP 200
+เปิด http://127.0.0.1:8080 ได้ตามเดิม
+
+
+# คำสั่งที่ใช้:
+
+docker pull phpmyadmin:latest
+docker compose -f "D:\docker-app\mysql\docker-compose.yml" up -d --force-recreate --no-deps phpmyadmin
+docker exec mysql-admin php -v
+docker exec mysql-admin php -r "echo 'PHP_VERSION=' . PHP_VERSION . PHP_EOL;"
+
+
+# ความหมายสั้น ๆ:
+
+ดึง image phpmyadmin:latest ใหม่
+recreate เฉพาะ service phpmyadmin (ไม่แตะ db)
+ตรวจเวอร์ชัน PHP ในคอนเทนเนอร์ (ได้ 8.3.36)
