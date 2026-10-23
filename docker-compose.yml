@@ -13,6 +13,7 @@ services:
     ports:
       - "3306:3306"                               # Map host port 3306 to container port 3306
     volumes:
+      # - mysql_data:/var/lib/mysql
       - ./mysql/data:/var/lib/mysql/
       - ./mysql/config:/etc/mysql/conf.d/
       - ./mysql/initdb:/docker-entrypoint-initdb.d
@@ -23,6 +24,7 @@ services:
       retries: 5
     networks:
       - app-network
+
   phpmyadmin:
     image: phpmyadmin:latest
     # image: phpmyadmin/phpmyadmin:latest
@@ -42,6 +44,10 @@ services:
         condition: service_healthy
     networks:
       - app-network
+
+# volumes:
+#   mysql_data:
+
 networks:
   app-network:
     name: app-network
